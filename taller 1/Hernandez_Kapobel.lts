@@ -1,5 +1,7 @@
 ENCUENTRO = (hola -> (conversar -> (adios -> STOP))).
 
+TRABAJO = (llego -> (trabajo -> (parto -> TRABAJO))).
+
 MOVIMIENTO = ( adelante -> (derecha -> MOVIMIENTO | izquierda -> STOP)).
 
 COIN = ( flip -> (head -> COIN ) | flip -> (tail -> COIN)).
