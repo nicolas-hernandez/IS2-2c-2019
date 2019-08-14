@@ -1,0 +1,20 @@
+ENCUENTRO = (hola -> (conversar -> (adios -> STOP))).
+
+MOVIMIENTO = ( adelante -> (derecha -> MOVIMIENTO | izquierda -> STOP)).
+
+COIN = ( flip -> (head -> COIN ) | flip -> (tail -> COIN)).
+
+CUATROTICKS (N=3) = TICK[0],
+TICK[i:0..N] = (when (i < N) tick -> TICK[i+1] | when (i==N) tick -> STOP).
+
+DOBLE (N=3) = (in[i:1..N] -> (out[i*2] -> DOBLE)).
+
+VARIABLE (N = 3) = VARIABLE[0],
+VARIABLE[j:0..N] = (read[j] -> VARIABLE[j] | write[i:0..N] -> VARIABLE[i]).
+
+RADIO (N = 108) = OFF,
+OFF = (on -> RADIO[N]),
+RADIO[f:88..N] = (off -> OFF | reset[N] -> RADIO[N] | when (f > 88) scan -> RADIO[f-1] | lock[f] -> RADIO[f] | when (f == 88) end -> RADIO[88]).
+
+TANQUE (MAX = 9) = SENSOR[5],
+SENSOR[n:0..MAX] = (when (n < 2) low -> SENSOR[n] | when (n > 8) high -> SENSOR[n] | when (n > 0) sense[n-1] -> SENSOR[n-1] | when (n < 9) sense[n+1] -> SENSOR[n+1]).
