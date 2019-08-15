@@ -1,3 +1,7 @@
+/*
+
+// EJERCICIO 1:
+
 ENCUENTRO = (hola -> (conversar -> (adios -> STOP))).
 
 TRABAJO = (llego -> (trabajo -> (parto -> TRABAJO))).
@@ -11,12 +15,47 @@ TICK[i:0..N] = (when (i < N) tick -> TICK[i+1] | when (i==N) tick -> STOP).
 
 DOBLE (N=3) = (in[i:1..N] -> (out[i*2] -> DOBLE)).
 
-VARIABLE (N = 3) = VARIABLE[0],
-VARIABLE[j:0..N] = (read[j] -> VARIABLE[j] | write[i:0..N] -> VARIABLE[i]).
+// EJERCICIO 2
+
+VARIABLE (R = 3) = VARIABLE[0],
+VARIABLE[j:0..R] = (read[j] -> VARIABLE[j] | write[i:0..R] -> VARIABLE[i]).
+
+// EJERCICIO 3
 
 RADIO (N = 108) = OFF,
 OFF = (on -> RADIO[N]),
 RADIO[f:88..N] = (off -> OFF | reset[N] -> RADIO[N] | when (f > 88) scan -> RADIO[f-1] | lock[f] -> RADIO[f] | when (f == 88) end -> RADIO[88]).
 
+// EJERCICIO 4
+
 TANQUE (MAX = 9) = SENSOR[5],
-SENSOR[n:0..MAX] = (when (n == 1) normal -> SENSOR[n+1] | when (n == 2) low -> SENSOR[n-1] | when (n == 8) high -> SENSOR[n+1] | when (n == 9) normal -> SENSOR[n-1] | when (n != 2 && n != 9 && n > 0) sense[n-1] -> SENSOR[n-1] | when (n < 8 && n != 1) sense[n+1] -> SENSOR[n+1]).
+SENSOR[n:0..MAX] = (when (n == 1) normal -> SENSOR[n+1] | when (n == 2) low -> SENSOR[n-1] | when (n == 8) high -> SENSOR[n+1] | when (n == MAX) normal -> SENSOR[n-1] | when (n != 2 && n != MAX && n > 0) sense[n-1] -> SENSOR[n-1] | when (n < 8 && n != 1) sense[n+1] -> SENSOR[n+1]).
+
+// EJERCICIO 5a
+
+PQ = (a -> (c -> BPQ) | c -> (a -> BPQ)),
+BPQ = (b -> PQ).
+
+// EJERCICIO 5b
+
+P = (a -> b -> P).
+Q = (c -> b -> Q).
+T = (c -> d -> T | c -> T).
+||S = (P || Q || T).
+
+// EJERCICIO 6
+
+ESCRITOR (N = 3) = (write[j:0..N] -> ESCRITOR).
+LECTOR (N = 3) = (read[j:1..N] -> imprimir[j] -> LECTOR | read[0] -> LECTOR).
+||S = (ESCRITOR || LECTOR || VARIABLE).
+*/
+
+// EJERCICIO 7
+
+ENTRADA = (entry -> ENTRADA).
+SALIDA = (exit -> SALIDA).
+DIRECTOR = (open -> close -> empty -> DIRECTOR).
+CONTROL (N = 3) = (open -> CONTROLENTRADA[0]),
+CONTROLENTRADA[i:0..N] = (when (i < N) entry -> CONTROLENTRADA[i+1] | when (i > 0) exit -> CONTROLENTRADA[i-1] | close -> CONTROLSALIDA[i]),
+CONTROLSALIDA[i:0..N] = (when (i > 0) exit -> CONTROLSALIDA[i-1] | when (i == 0) empty -> CONTROL).
+||MUSEO = (ENTRADA || SALIDA || DIRECTOR || CONTROL).
