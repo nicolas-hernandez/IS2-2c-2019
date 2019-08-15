@@ -19,4 +19,4 @@ OFF = (on -> RADIO[N]),
 RADIO[f:88..N] = (off -> OFF | reset[N] -> RADIO[N] | when (f > 88) scan -> RADIO[f-1] | lock[f] -> RADIO[f] | when (f == 88) end -> RADIO[88]).
 
 TANQUE (MAX = 9) = SENSOR[5],
-SENSOR[n:0..MAX] = (when (n < 2) low -> SENSOR[n] | when (n > 8) high -> SENSOR[n] | when (n > 0) sense[n-1] -> SENSOR[n-1] | when (n < 9) sense[n+1] -> SENSOR[n+1]).
+SENSOR[n:0..MAX] = (when (n == 1) normal -> SENSOR[n+1] | when (n == 2) low -> SENSOR[n-1] | when (n == 8) high -> SENSOR[n+1] | when (n == 9) normal -> SENSOR[n-1] | when (n != 2 && n != 9 && n > 0) sense[n-1] -> SENSOR[n-1] | when (n < 8 && n != 1) sense[n+1] -> SENSOR[n+1]).
