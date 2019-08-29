@@ -1,0 +1,28 @@
+const MAX=5
+range NUM=2..MAX
+set S={[NUM],eos}
+
+GEN = GEN[2],
+GEN[j:2..MAX] = (when (j < MAX) out[j] -> GEN[j+1] 
+				| when (j == MAX) out[j] -> out.eos -> end -> GEN).
+
+FILTER = (in[p:NUM] -> prime[p] -> FILTERSUB[p]),
+FILTERSUB[p:NUM] = (in[j:p..MAX] -> 
+						if (j % p != 0) 
+						then (out[j] -> FILTERSUB[p]) 
+						else FILTERSUB[p] 
+				  | in.eos -> out.eos -> end -> STOP) + {in[k:NUM], out[l:NUM]}.
+
+// Pipe process buffers elements from set S:
+
+PIPE=(put[x:NUM]->get[x]->PIPE | put.eos -> get.eos -> end -> STOP).
+
+|| PRIMES(N=4)=
+(gen:GEN
+|| pipe[0..N-1]:PIPE
+|| filter[0..N-1]:FILTER)
+/{pipe[0].put/gen.out,
+pipe[i:0..N-1].get/filter[i].in,
+pipe[i:1..N-1].put/filter[i-1].out,
+end/{filter[0..N-1].end,gen.end}}
+@{filter[0..N-1].prime,end}.
