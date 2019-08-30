@@ -1,0 +1,43 @@
+const N = 3
+Philosopher = (think -> sit -> left.get -> right.get -> eat -> left.put -> right.put -> stand -> Philosopher).
+Fork = (get -> put -> Fork).
+||DP = (forall [i:0..N] (phil[i]:Philosopher || {phil[i].left, phil[(i+1) % (N+1)].right}::Fork)).
+// EJ1.a: El problema de los filosofos tiene un deadlock si todos los filosofos piensan, se sientan, y cada uno agarra el tenedor a su izq
+/*
+Trace to DEADLOCK:
+	phil.0.think
+	phil.0.sit
+	phil.0.left.get
+	phil.1.think
+	phil.1.sit
+	phil.1.left.get
+	phil.2.think
+	phil.2.sit
+	phil.2.left.get
+	phil.3.think
+	phil.3.sit
+	phil.3.left.get
+*/
+// EJ1.b:
+progress EAT = {phil[0].eat, phil[1].eat, phil[2].eat, phil[3].eat}
+/*
+Finding trace in cycle...
+Progress violation: EAT
+Trace to terminal set of states:
+	phil.0.think
+	phil.0.sit
+	phil.0.left.get
+	phil.1.think
+	phil.1.sit
+	phil.1.left.get
+	phil.2.think
+	phil.2.sit
+	phil.2.left.get
+	phil.3.think
+	phil.3.sit
+	phil.3.left.get
+Cycle in terminal set:
+Actions in terminal set:
+	{}
+Progress Check in: 5ms
+*/
