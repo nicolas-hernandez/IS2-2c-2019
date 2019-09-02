@@ -40,9 +40,17 @@ STANDBY  =(engineOff -> INACTIVE
 			
 ||CRUISECONTROLSYSTEM = (CONTROL||SENSORSCAN||INPUTSPEED||THROTTLE).
 
-SEQUENCE = 
-	(engineOn -> clearSpeed -> accelerator -> accelerator -> on -> recordSpeed -> 
-	enableControl -> accelerator -> disableControl -> speed -> setThrottle -> zoom ->  speed -> setThrottle -> zoom -> speed -> ERROR).
+SENSORSCAN2 = (engineOn -> accelerator -> accelerator -> 
+			on -> accelerator -> STOP).
+			
+CRUISECONTROLLER2 = (engineOn -> clearSpeed -> accelerator -> accelerator -> 
+			on ->  recordSpeed -> enableControl -> accelerator -> disableControl -> ERROR).
 
+SPEEDCONTROLLER2 = (clearSpeed -> recordSpeed -> enableControl -> speed -> 
+					setThrottle -> speed -> setThrottle -> speed -> disableControl -> ERROR).
+INPUTSPEED2 = (speed -> speed -> speed -> STOP).
+THROTTLE2 = (setThrottle -> zoom -> setThrottle -> zoom -> STOP).
 
-||CHECK = (CRUISECONTROLSYSTEM || SEQUENCE).
+||CRUISECONTROLSYSTEM2 = (CRUISECONTROLLER2||SPEEDCONTROLLER2||SENSORSCAN2||INPUTSPEED2||THROTTLE2).
+
+||CHECK = (CRUISECONTROLSYSTEM || CRUISECONTROLSYSTEM2).

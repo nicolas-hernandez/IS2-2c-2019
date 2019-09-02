@@ -6,7 +6,7 @@ set UserEvents = {arrived, takenOff, landed}
 set VehicleActions = {down, up, moveE, moveN, moveS, moveW, tVideo}
 
 CONTROLLER = IDLE,
-IDLE = ( gotoLoc -> MOVING | gotoLoc -> arrived -> IDLE | land -> LANDING 
+IDLE = ( gotoLoc -> MOVING | gotoLoc -> arrived -> IDLE //| land -> LANDING 
            | takeOff -> TAKINGOFF | goUp -> up -> IDLE | goUp -> IDLE 
            | goDown -> down -> IDLE | goDown -> IDLE 
            | toggleVideo -> tVideo -> IDLE),
@@ -14,15 +14,23 @@ MOVING = ({moveN, moveS, moveE, moveW} -> MOVING | abort -> IDLE
            | {moveN, moveS, moveE, moveW} -> arrived -> IDLE),
 LANDING = (down -> LANDING | down -> landed -> IDLE),
 TAKINGOFF = (up -> TAKINGOFF | up -> (takenOff -> IDLE 
-           | abort -> IDLE) | abort -> IDLE).
+           | abort -> IDLE) | abort -> IDLE) + {land}.
 
 USER = ({UserActions,UserEvents} -> USER).
 VEHICLE = ({VehicleActions} -> VEHICLE).
 
 ||SYSTEM = (USER || CONTROLLER || VEHICLE).
 
-USECASE_Moving = (gotoLoc -> abort -> land -> USECASE_Moving).
-USECASE_TakingOff = (takeOff -> abort -> land -> USECASE_TakingOff).
+set A2 = {arrived, down, goDown, goUp, up, landed,
+                 moveE, moveN, moveS, moveW, toggleVideo, tVideo, takeOff,
+                 takenOff}
+set A3 = {arrived, down, goDown, goUp, up, gotoLoc, landed,
+                 moveE, moveN, moveS, moveW, toggleVideo, tVideo,
+                 takenOff}
+USECASE_Moving = (gotoLoc -> ASD),
+ASD = ({A2} -> ERROR).
+USECASE_TakingOff = (takeOff -> ASD2),
+ASD2 = ({A2} -> ERROR).
 ONLYMOVES = (gotoLoc -> MOVING2 | gotoLoc -> INVALID),
 MOVING2 = ({moveN, moveS, moveE, moveW} -> MOVING2 | {moveN, moveS, moveE, moveW} -> INVALID),
 INVALID = ({down, goDown, goUp, up, gotoLoc, land, landed, toggleVideo, tVideo, takeOff, takenOff} -> INVALID2),
