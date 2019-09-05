@@ -1,0 +1,4 @@
+WORKER = (take -> start -> end -> result -> WORKER).
+SUPERVISOR = (accept -> delegate -> SUPERVISOR).
+
+||SYSTEM(N=2) = (w[1..N]:WORKER || s:SUPERVISOR)/{w[i:1..N].take/s.delegate}.
