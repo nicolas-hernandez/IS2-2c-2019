@@ -1,7 +1,8 @@
 const N = 4
 CONSUMIDOR = (pop -> CONSUMIDOR).
-PRODUCTOR = (push -> PRODUCTOR).
+PRODUCTOR = (push.true -> push.false -> PRODUCTOR).
 BUFFER = BUFFER[0][0],
 BUFFER[npush:0..N][npop:0..N] = (when (npush != npop) pop -> POP[npush][npop] | when ((npush+1)%N != npop) push -> PUSH[npush][npop]),
 PUSH[npush:0..N][npop:0..N] = (when (npush+1 == npop) wait -> BUFFER[npush][npop] | when ((npush+1)%N != npop) notifypop -> BUFFER[(npush+1)%N][npop]),
 POP[npush:0..N][npop:0..N] = (when (npush == npop) wait -> BUFFER[npush][npop] | when (npush != npop) notifypush -> BUFFER[npush][(npop+1)%N]).
+||SYSTEM = (PRODUCTOR || CONSUMIDOR || BUFFER) /{push/push.true, push/push.false}.

@@ -1,0 +1,6 @@
+const N = 3
+CONSUMIDOR = (pop -> CONSUMIDOR).
+PRODUCTOR = (push.true -> push.false -> PRODUCTOR).
+BUFFER = BUFFER[0][0],
+BUFFER[npush:0..N][npop:0..N] = (when (npush != npop) pop -> BUFFER[npush][(npop+1)%N] | when ((npush+1)%N != npop) push -> BUFFER[(npush+1)%N][npop]).
+||SYSTEM = ({p1,p2,p3}:PRODUCTOR || {c1,c2,c3}:CONSUMIDOR || BUFFER) /{{p1,p2,p3}.push.true/push, {p1,p2,p3}.push.false/push, {c1,c2,c3}.pop/pop}.
